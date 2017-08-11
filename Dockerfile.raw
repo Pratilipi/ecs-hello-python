@@ -1,0 +1,25 @@
+FROM $DOCKER_REPO/ubuntu-nginx:1.0
+
+#set timezone
+RUN rm /etc/localtime
+RUN ln -s /usr/share/zoneinfo/Asia/Kolkata /etc/localtime
+RUN export TZ=Asia/Kolkata
+
+#codebase
+RUN mkdir -p /ecs-hello-python
+
+#setup env
+COPY requirements.txt /ecs-hello-python/
+COPY main.py /ecs-hello-python/
+
+#set work dir
+WORKDIR /ecs-hello-python
+
+#install dependencies
+RUN pip install -q -r requirements.txt
+
+#container port expose
+EXPOSE 80
+
+ENTRYPOINT ["python", "main.py"]
+
