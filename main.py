@@ -20,6 +20,13 @@ def timeit(method):
     return timed
 
 
+@application.route('/health', method=['OPTIONS', 'GET'])
+def health():
+    """health - to check health of the api"""
+    result = {"state":"healthy"}
+    return bottle.HTTPResponse(status=200, body=result)
+
+
 @application.route('/test', method=['GET'])
 @timeit
 def test(**kwargs):
